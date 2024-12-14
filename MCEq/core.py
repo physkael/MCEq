@@ -736,7 +736,7 @@ class MCEqRun(object):
 
         if not kwargs.pop('skip_integration_path', False):
             if int_grid is not None and np.any(np.diff(int_grid) < 0):
-                raise Exception('The X values in int_grid are required to be strickly',
+                raise Exception('The X values in int_grid are required to be strictly',
                                 'increasing.')
 
             # Calculate integration path if not yet happened
@@ -834,6 +834,7 @@ class MCEqRun(object):
         dXmax = config.dXmax
         while X < max_X:
             dX = min(delta_X(X), dXmax)
+            if type(dX) is np.ndarray: dX = dX[0]
             if (np.any(int_grid) and (grid_step < len(int_grid))
                     and (X + dX >= int_grid[grid_step])):
                 dX = int_grid[grid_step] - X
